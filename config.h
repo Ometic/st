@@ -1,40 +1,47 @@
 /* See LICENSE file for copyright and license details. */
 
-static char *font = "Hack Nerd Font:pixelsize=12:antialias=true:autohint=true";
-static int borderpx = 2;
+#define MODKEY Mod1Mask
+#define TERMMOD (ControlMask|ShiftMask)
 
+/* General */
+char *termname = "st-256color";
+
+int allowaltscreen = 1;
+int allowwindowops = 0;
+
+static int bellvolume = 0;
+static unsigned int blinktimeout = 800;
+
+/* Fonts */
+static char *font = "Hack Nerd Font:pixelsize=12:antialias=true:autohint=true";
+
+static int borderpx = 2;
+static unsigned int defaultattr = 11;
+
+/* Programs */
 static char *shell = "/bin/sh";
 char *utmp = NULL;
 char *scroll = NULL;
 char *stty_args = "stty raw pass8 nl -echo -iexten -cstopb 38400";
 
-char *vtiden = "\033[?6c";
-
+/* Kerning */
 static float cwscale = 1.0;
 static float chscale = 1.0;
 
-wchar_t *worddelimiters = L" ";
-
+/* Selection Timeouts */
 static unsigned int doubleclicktimeout = 300;
 static unsigned int tripleclicktimeout = 600;
 
-int allowaltscreen = 1;
-
-int allowwindowops = 0;
-
+/* Latency */
 static double minlatency = 8;
 static double maxlatency = 33;
 
-static unsigned int blinktimeout = 800;
-
-static unsigned int cursorthickness = 2;
-
-static int bellvolume = 0;
-
-char *termname = "st-256color";
-
+/* Don't Know What To Call */
 unsigned int tabspaces = 4;
+static unsigned int cols = 80;
+static unsigned int rows = 24;
 
+/* Colors */
 static const char *colorname[] = {
 	"#45475A",
 	"#F38BA8",
@@ -65,18 +72,19 @@ unsigned int defaultbg = 257;
 unsigned int defaultcs = 258;
 static unsigned int defaultrcs = 258;
 
+/* Cursor */
 static unsigned int cursorshape = 2;
-
-static unsigned int cols = 80;
-static unsigned int rows = 24;
+static unsigned int cursorthickness = 2;
 
 static unsigned int mouseshape = XC_xterm;
 static unsigned int mousefg = 7;
 static unsigned int mousebg = 0;
 
-static unsigned int defaultattr = 11;
-
+/* Keybinds */
 static uint forcemousemod = ShiftMask;
+
+static uint ignoremod = Mod2Mask|XK_SWITCH_MOD;
+static KeySym mappedkeys[] = { -1 };
 
 static MouseShortcut mshortcuts[] = {
 	{ XK_ANY_MOD,           Button4, kscrollup,      {.i = 2}, 0, -1 },
@@ -88,8 +96,6 @@ static MouseShortcut mshortcuts[] = {
 	{ XK_ANY_MOD,           Button5, ttysend,        {.s = "\005"} },
 };
 
-#define MODKEY Mod1Mask
-#define TERMMOD (ControlMask|ShiftMask)
 
 static Shortcut shortcuts[] = {
 	{ XK_ANY_MOD,           XK_Break,       sendbreak,      {.i =  0} },
@@ -107,10 +113,6 @@ static Shortcut shortcuts[] = {
 	{ ShiftMask,            XK_Page_Up,     kscrollup,      {.i = -1} },
 	{ ShiftMask,            XK_Page_Down,   kscrolldown,    {.i = -1} },
 };
-
-static KeySym mappedkeys[] = { -1 };
-
-static uint ignoremod = Mod2Mask|XK_SWITCH_MOD;
 
 static Key key[] = {
 	{ XK_KP_Home,       ShiftMask,      "\033[2J",       0,   -1},
@@ -323,6 +325,10 @@ static Key key[] = {
 	{ XK_F34,           XK_NO_MOD,      "\033[21;5~",    0,    0},
 	{ XK_F35,           XK_NO_MOD,      "\033[23;5~",    0,    0},
 };
+
+/* Others */ 
+wchar_t *worddelimiters = L" ";
+char *vtiden = "\033[?6c";
 
 static uint selmasks[] = {
 	[SEL_RECTANGULAR] = Mod1Mask,
